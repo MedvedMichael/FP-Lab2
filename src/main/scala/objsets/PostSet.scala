@@ -133,17 +133,7 @@ class Empty extends PostSet {
 
 class NonEmpty(elem: Post, left: PostSet, right: PostSet) extends PostSet {
 
-  def descendingByLikes: PostList = descendingByLikesAcc(this)
-
-  def descendingByLikesAcc(acc: PostSet): PostList = {
-    try {
-      new Cons(acc.mostLiked, descendingByLikesAcc(acc.remove(acc.mostLiked)))
-    }
-    catch {
-      case _: java.util.NoSuchElementException => Nil
-    }
-  }
-
+  def descendingByLikes: PostList = new Cons(this.mostLiked, this.remove(this.mostLiked).descendingByLikes)
 
   def mostLiked: Post = {
     (List(left, right).map(set =>
